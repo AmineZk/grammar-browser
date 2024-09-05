@@ -31,7 +31,7 @@ const rawData = ref(null);
 async function fetchData(url: string) {
   try {
     isLoading.value = true;
-    const response = await fetch(url);
+    const response = await fetch(url, {mode: 'cors'});
     const data = await response.json();
     rawData.value = data;
   } catch (e) {
@@ -41,6 +41,6 @@ async function fetchData(url: string) {
   }
 };
 
-fetchData('/api')
+fetchData('https://app.m-itrust.com/v2/public/claims')
 
 </script>
