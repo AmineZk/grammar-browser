@@ -1,0 +1,8 @@
+{
+    "rewrites": [
+        {
+            "source": "/api",
+            "destination": "https://app.m-itrust.com/v2/public/claims"
+        }
+    ]
+}

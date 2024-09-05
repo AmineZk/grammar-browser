@@ -42,7 +42,7 @@ export function filterByTitle(data: data, searchTitle: string, expandedIdsParam:
     let result = {};
     let expandedIds = expandedIdsParam;
     if (!searchTitle) return { result: data, expandedIds: [] };
-    if (data.title && data.title.includes(searchTitle)) {
+    if (data.title.toLowerCase() && data.title.includes(searchTitle.toLowerCase())) {
         result = { ...data };
     }
     else if (data.children && Array.isArray(data.children)) {
