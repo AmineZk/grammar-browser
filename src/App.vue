@@ -41,6 +41,6 @@ async function fetchData(url: string) {
   }
 };
 
-fetchData('http://localhost:3000/data')
+fetchData('/api')
 
 </script>
