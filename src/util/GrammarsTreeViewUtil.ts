@@ -1,9 +1,10 @@
 interface data {
-    id: number;
+    id: string;
     title: string;
     children?: data[];
     [key: string]: any;
 }
+
 /**
  * Checks if the specified data is nestable
  */
@@ -12,22 +13,20 @@ function isNestable(value: any) { return (typeof value === 'object' && !Array.is
 /**
  * Transforms the raw data into nestable data to feed to the tree list
  */
-export function transformToTree(data: any, title: string = 'response', id: number = 1): data {
+export function transformToTree(data: any, title: string = 'response'): data {
     const nonNestableData = Object.fromEntries(Object.entries(data).filter(([key, value]) => !isNestable(value)));
+    const id =`${Math.random()}`;
     let result: data = {
         ...nonNestableData,
         id,
         title: `${title}`,
         children: []
     };
-    let index = 1;
     for (const key in data) {
         if (isNestable(data[key])) {
-            const nestedChild: any = transformToTree(data[key], key, id + index);
+            const nestedChild: any = transformToTree(data[key], key);
             result.children?.push(nestedChild);
-            index++;
         }
-        index++;
     }
     if (!result.children?.length) {
         delete result.children;
@@ -38,9 +37,11 @@ export function transformToTree(data: any, title: string = 'response', id: numbe
 /**
  * Returns the filtered data and the expanded ids based on the filters
  */
-export function filterByTitle(data: data, searchTitle: string, expandedIdsParam: Array<number> = []) {
+export function filterByTitle(data: data, searchTitle: string, expandedIdsParam: Array<string> = []) {
     let result = {};
+
     let expandedIds = expandedIdsParam;
+
     if (!searchTitle) return { result: data, expandedIds: [] };
     if (data.title.toLowerCase() && data.title.includes(searchTitle.toLowerCase())) {
         result = { ...data };
